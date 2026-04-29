@@ -4,11 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PembayaranController extends Controller
+class AuthController extends Controller
 {
-        public function index()
+    /**
+     * Display a listing of the resource.
+     */
+
+    public function index()
     {
-        return view('pembayaran.index');
+        return view('auth.index');
+    }
+
+    public function login(Request $request){
+        // $request->validate([
+        //     'email' => 'required|email',
+        //     'password' => 'required',
+        // ]);
+    }
+
+    public function register(Request $request){
+        return view('auth.register');
     }
 
     /**
