@@ -3,7 +3,8 @@
         'class' => '
             px-5
             py-3
-            rounded-xl
+            w-full
+            rounded-md
             bg-primary
             text-white
             lg:text-md

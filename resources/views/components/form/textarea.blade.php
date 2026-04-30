@@ -25,6 +25,7 @@
             'class' => '
                 w-full
                 rounded-xl
+                placeholder:text-neutral
                 border
                 border-gray-300
                 px-4

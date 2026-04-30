@@ -8,12 +8,12 @@
         <p class="text-black md:text-lg text-sm text-center mb-12">Pilih peranmu untuk mulai menggunakan aplikasi</p>
 
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-20 mb-8 lg:mb-14">
-            <a href="{{ route('login.penghuni') }}" class="bg-white flex flex-col justify-center items-center max-w-sm p-6 border border-default rounded-md shadow-xs hover:bg-neutral-secondary-medium">
+            <a href="{{ route('register.penghuni') }}" class="bg-white flex flex-col justify-center items-center max-w-sm p-6 border border-default rounded-md shadow-xs hover:bg-neutral-secondary-medium">
                 <img src="{{ asset('assets/icons/penghuni-icon.png') }}" alt="penghuni" class="mb-2">
                 <h5 class="mb-3 md:text-lg text-md font-semibold tracking-tight text-heading leading-8">Penghuni</h5>
                 <p class="text-body md:text-sm text-[12px] text-center">Kelola aktivitas sebagai penghuni kost</p>
             </a>
-            <a href="{{ route('login.pengelola') }}" class="bg-white flex flex-col justify-center items-center max-w-sm p-6 border border-default rounded-md shadow-xs hover:bg-neutral-secondary-medium">
+            <a href="{{ route('register.pengelola') }}" class="bg-white flex flex-col justify-center items-center max-w-sm p-6 border border-default rounded-md shadow-xs hover:bg-neutral-secondary-medium">
                 <img src="{{ asset('assets/icons/pengelola-icon.png') }}" alt="pengelola" class="mb-2">
                 <h5 class="mb-3 md:text-lg text-md font-semibold tracking-tight text-heading leading-8">Pengelola</h5>
                 <p class="text-body md:text-sm text-[12px] text-center">Kelola kost dengan praktis</p>

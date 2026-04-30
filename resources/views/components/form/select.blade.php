@@ -26,6 +26,7 @@
                 border-[#888888]
                 px-4
                 py-3
+                placeholder:text-neutral
                 focus:outline-none
                 focus:ring-1
                 focus:ring-primary

@@ -1,52 +1,101 @@
 @props([
 'label' => '',
-'name',
+'name' => '',
 'type' => 'text',
 'placeholder' => '',
-'value' => '',
 'required',
-'readonly' => false,
 ])
 
 <div class="space-y-2">
 
+    {{-- Label --}}
     @if($label)
     <label
         for="{{ $name }}"
-        class="block text-sm font-medium text-neutral">
+        class="block text-sm font-medium text-gray-700">
         {{ $label }}
     </label>
     @endif
 
-    <input
-        id="{{ $name }}"
-        type="{{ $type }}"
-        name="{{ $name }}"
-        value="{{ old($name, $value) }}"
-        placeholder="{{ $placeholder }}"
-        required
-        @readonly($readonly)
+    {{-- Wrapper --}}
+    <div class="relative">
 
-        {{ $attributes->merge([
-            'class' => '
-                w-full
-                rounded-md
-                border
-                border-[#888888]
-                px-4
-                py-3
-                focus:outline-none
-                focus:ring-1
-                focus:ring-primary
-                focus:border-primary
-                placeholder:text-neutral
-            '
-        ]) }}>
+        {{-- Input --}}
+        <input
+            id="{{ $name }}"
+            name="{{ $name }}"
+            type="{{ $type }}"
+            placeholder="{{ $placeholder }}"
+            required
 
-    @error($name)
-    <p class="text-sm text-red-500">
-        {{ $message }}
-    </p>
-    @enderror
+            {{ $attributes->merge([
+                'class' => '
+                    w-full
+                    rounded-xl
+                    border
+                    border-gray-300
+                    px-4
+                    py-3
+                    placeholder:text-neutral
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-primary
+                '
+            ]) }}>
+
+        {{-- Toggle Password --}}
+        @if($type === 'password')
+
+        <button
+            type="button"
+
+            onclick="
+                    const input = document.getElementById('{{ $name }}');
+
+                    const eyeOpen = document.getElementById('eye-open-{{ $name }}');
+                    const eyeClose = document.getElementById('eye-close-{{ $name }}');
+
+                    if(input.type === 'password') {
+
+                        input.type = 'text';
+
+                        eyeOpen.classList.remove('hidden');
+                        eyeClose.classList.add('hidden');
+
+                    } else {
+
+                        input.type = 'password';
+
+                        eyeOpen.classList.add('hidden');
+                        eyeClose.classList.remove('hidden');
+                    }
+                "
+
+            class="
+                    absolute
+                    right-4
+                    top-1/2
+                    -translate-y-1/2
+                ">
+
+            {{-- Mata Terbuka --}}
+            <img
+                id="eye-open-{{ $name }}"
+                src="{{ asset('../assets/icons/eye-open.png') }}"
+                class="hidden w-4 h-4"
+                alt="Show Password">
+
+            {{-- Mata Tertutup --}}
+            <img
+                id="eye-close-{{ $name }}"
+                src="{{ asset('../assets/icons/eye-close.png') }}"
+                class="w-4 h-4"
+                alt="Hide Password">
+
+        </button>
+
+        @endif
+
+    </div>
 
 </div>
