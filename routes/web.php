@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\PenghuniAuthController;
 
 
 /*
@@ -35,3 +36,11 @@ Route::get('/penghuni/login', function () {
 Route::get('/penghuni/register', function () {
     return view('pages.auth.penghuni.register-penghuni');
 })->name('register.penghuni');
+Route::get('/penghuni/index', function () {
+    return view('pages.penghuni.dashboard-penghuni');
+})->name('penghuni.index');
+
+Route::controller(PenghuniAuthController::class)->group(function(){
+    Route::post('/penghuni/register', 'store')->name('penghuni.store');
+    Route::post('/penghuni/login', 'sessionLogin')->name('penghuni.sessionLogin');
+});

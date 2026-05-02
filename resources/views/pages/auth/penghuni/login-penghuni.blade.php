@@ -16,9 +16,10 @@
         <div class="w-full">
             <div class="flex justify-center lg:pt-10 pt-2">
                 <x-card class="w-[500px]">
-                    <h1 class="lg:text-3xl text-xl text-black font-bold mb-4">Login Pengelola</h1>
+                    <h1 class="lg:text-3xl text-xl text-black font-bold mb-4">Login Penghuni</h1>
                     <p class="text-neutral text-sm mb-6">Masuk ke akun Anda</p>
-                    <form action="">
+                    <form action="{{ route('penghuni.sessionLogin') }}" method="POST">
+                        @csrf
                         <div>
                             <x-form.input
                                 label="Email"
@@ -31,7 +32,7 @@
                                 name="password"
                                 type="password"
                                 placeholder="Masukkan password " /></div>
-                        <x-form.button class="my-8">Login</x-form.button>
+                        <x-form.button type="submit" class="my-8">Login</x-form.button>
                     </form>
                     <div class="flex justify-center">
                         <p class="md:text-md text-sm text-[#686868]">Belum punya akun?<span class="text-primary font-semibold"><a href="{{ route('register.penghuni') }}"> Daftar</a></span></p>

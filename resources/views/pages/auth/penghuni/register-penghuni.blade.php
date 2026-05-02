@@ -17,45 +17,65 @@
             <x-card class="w-[500px]">
                 <h1 class="lg:text-3xl text-xl text-black font-bold mb-4">Daftar Penghuni</h1>
                 <p class="text-neutral text-sm mb-6">Buat akun untuk mengelola aktivitas Anda.</p>
-                <form action="">
+                <form action="{{ route('penghuni.store') }}" method="POST">
+                    @csrf
+                    {{-- @dd($user) --}}
                     <div>
                         <div class="mb-4">
                             <x-form.input
-                                label="Nama Lengkap"
-                                name="nama"
-                                type="text"
-                                placeholder="Masukkan nama lengkap" />
+                            label="Nama Lengkap"
+                            name="nama"
+                            type="text"
+                            placeholder="Masukkan nama lengkap" />
+                            @error('nama')
+                                <div>{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <x-form.input
+                        label="Nomor Telepon"
+                        name="telpon"
+                        type="text"
+                        placeholder="08xxxxxxxxxx" />
+                        <div class="mb-4">
+                        {{-- @error('telpon')
+                            <div>{{ $message }}</div>
+                        @enderror --}}
                         </div>
                         <div class="mb-4">
                             <x-form.input
-                                label="Nomor Telepon"
-                                name="telepon"
-                                type="text"
-                                placeholder="08xxxxxxxxxx" />
+                            label="Alamat"
+                            name="alamat"
+                            type="text"
+                            placeholder="Masukkan alamat Anda" />
+                            @error('alamat')
+                            <div>{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <x-form.input
-                                label="Alamat"
-                                name="alamat"
-                                type="text"
-                                placeholder="Masukkan alamat Anda" />
-                        </div>
-                        <div class="mb-4">
+                            label="Email"
+                            name="email"
+                            type="email"
+                            placeholder="contoh@gmail.com" />
+                            @error('email')
+                                <div>{{ $message }}</div>
+                                @enderror
+                            </div>
+                        <div>
                             <x-form.input
-                                label="Email"
-                                name="email"
-                                type="email"
-                                placeholder="contoh@gmail.com" />
+                            label="Password"
+                            name="password"
+                            type="password"
+                            placeholder="Masukkan password " />
+                            @error('password')
+                                <div>{{ $message }}</div>
+                            @enderror
                         </div>
-                        <div><x-form.input
-                                label="Password"
-                                name="password"
-                                type="password"
-                                placeholder="Masukkan password " /></div>
-                        <x-form.button class="my-8">Daftar</x-form.button>
+                        <x-form.button type="submit" class="my-8">Daftar</x-form.button>
                         <div class="flex justify-center">
                             <p class="md:text-md text-sm text-[#686868]">Sudah punya akun?<span class="text-primary font-semibold"><a href="{{ route('login.penghuni') }}"> Login</a></span></p>
                         </div>
+                    </div>
                 </form>
             </x-card>
         </div>
