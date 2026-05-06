@@ -23,62 +23,63 @@
                     <div>
                         <div class="mb-4">
                             <x-form.input
-                            label="Nama Lengkap"
-                            name="nama"
-                            type="text"
-                            placeholder="Masukkan nama lengkap" />
+                                label="Nama Lengkap"
+                                name="nama"
+                                type="text"
+                                placeholder="Masukkan nama lengkap" />
                             @error('nama')
-                                <div>{{ $message }}</div>
+                            <div>{{ $message }}</div>
                             @enderror
                         </div>
                         <x-form.input
-                        label="Nomor Telepon"
-                        name="telpon"
-                        type="text"
-                        placeholder="08xxxxxxxxxx" />
+                            label="Nomor Telepon"
+                            name="telpon"
+                            type="text"
+                            placeholder="08xxxxxxxxxx" />
                         <div class="mb-4">
-                        {{-- @error('telpon')
-                            <div>{{ $message }}</div>
-                        @enderror --}}
+                            {{-- @error('telpon')
+                            <div>{{ $message }}
                         </div>
-                        <div class="mb-4">
-                            <x-form.input
+                        @enderror --}}
+                    </div>
+                    <div class="mb-4">
+                        <x-form.input
                             label="Alamat"
                             name="alamat"
                             type="text"
                             placeholder="Masukkan alamat Anda" />
-                            @error('alamat')
-                            <div>{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-4">
-                            <x-form.input
+                        @error('alamat')
+                        <div>{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <x-form.input
                             label="Email"
                             name="email"
                             type="email"
                             placeholder="contoh@gmail.com" />
-                            @error('email')
-                                <div>{{ $message }}</div>
-                                @enderror
-                            </div>
-                        <div>
-                            <x-form.input
+                        @error('email')
+                        <div>{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div>
+                        <x-form.input
                             label="Password"
                             name="password"
                             type="password"
                             placeholder="Masukkan password " />
-                            @error('password')
-                                <div>{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <x-form.button type="submit" class="my-8">Daftar</x-form.button>
-                        <div class="flex justify-center">
-                            <p class="md:text-md text-sm text-[#686868]">Sudah punya akun?<span class="text-primary font-semibold"><a href="{{ route('login.penghuni') }}"> Login</a></span></p>
-                        </div>
+                        @error('password')
+                        <div>{{ $message }}</div>
+                        @enderror
                     </div>
-                </form>
-            </x-card>
+                    <x-form.button type="submit" class="my-8">Daftar</x-form.button>
+                    <div class="flex justify-center">
+                        <p class="md:text-md text-sm text-[#686868]">Sudah punya akun?<span class="text-primary font-semibold"><a href="{{ route('login') }}"> Login</a></span></p>
+                    </div>
         </div>
+        </form>
+        </x-card>
     </div>
+</div>
 </div>
 @endsection
