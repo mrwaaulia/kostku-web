@@ -22,17 +22,11 @@ Route::get('/', function () {
 */
 
 // Pengelola
-Route::get('/pengelola/login', function () {
-    return view('pages.auth.pengelola.login-pengelola');
-})->name('login.pengelola');
 Route::get('/pengelola/register', function () {
     return view('pages.auth.pengelola.register-pengelola');
 })->name('register.pengelola');
 
 //Penghuni
-Route::get('/penghuni/login', function () {
-    return view('pages.auth.penghuni.login-penghuni');
-})->name('login.penghuni');
 Route::get('/penghuni/register', function () {
     return view('pages.auth.penghuni.register-penghuni');
 })->name('register.penghuni');
@@ -40,7 +34,15 @@ Route::get('/penghuni/index', function () {
     return view('pages.penghuni.dashboard-penghuni');
 })->name('penghuni.index');
 
-Route::controller(PenghuniAuthController::class)->group(function(){
+// Login & Lupa Password
+Route::get('/login', function () {
+    return view('pages.auth.login');
+})->name('login');
+Route::get('/lupa-password', function () {
+    return view('pages.auth.lupa-password');
+})->name('lupa-password');
+
+Route::controller(PenghuniAuthController::class)->group(function () {
     Route::post('/penghuni/register', 'store')->name('penghuni.store');
     Route::post('/penghuni/login', 'sessionLogin')->name('penghuni.sessionLogin');
 });

@@ -19,7 +19,7 @@
                 <p class="text-body md:text-sm text-[12px] text-center">Kelola kost dengan praktis</p>
             </a>
         </div>
-        <p class="md:text-md text-sm text-[#686868]">Sudah punya akun?<span class="text-primary font-semibold"><a href="{{ route('login.penghuni') }}"> Login</a></span></p>
+        <p class="md:text-md text-sm text-[#686868]">Sudah punya akun?<span class="text-primary font-semibold"><a href="{{ route('login') }}"> Login</a></span></p>
 
     </div>
 </div>
