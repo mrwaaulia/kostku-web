@@ -42,7 +42,7 @@
 
                 <x-card class="lg:w-[500px] w-full">
 
-                    <form action="{{ route('register.pengelola') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('pengelola.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         {{-- STEP 1 --}}
@@ -52,9 +52,10 @@
                             <p class="text-neutral text-sm mb-6">Buat akun untuk mengelola aktivitas Anda.</p>
 
                             <x-form.input label="Nama Pengelola" name="nama" placeholder="Masukkan nama lengkap" placeholder="Masukkan nama lengkap" class="mb-4" />
-                            <x-form.input label="Nomor telepon" name="telepon" placeholder="08xxxxxxxxxx" class="mb-4" />
+                            <x-form.input label="Nomor telepon" name="telpon" placeholder="08xxxxxxxxxx" class="mb-4" />
                             <x-form.input label="Email" name="email" type="email" placeholder="contoh@gmail.com" class="mb-4" />
-                            <x-form.input label="Password" name="password" placeholder="Masukkan password" type="password" />
+                            <x-form.input label="Password" name="password" placeholder="Masukkan password" type="password" class="mb-4" />
+                            <x-form.input label="Alamat" name="alamat" placeholder="Masukkan alamat lengkap" class="mb-4" />
 
                             <x-form.button type="button" class="w-full mt-8" @click="step = 2">
                                 Lanjut
@@ -77,11 +78,22 @@
 
                             <h1 class="lg:text-3xl text-xl font-bold mb-4">Daftar Kost</h1>
 
-                            <x-form.input label="Nama Kost" name="nama-kost" placeholder="Masukkan nama kost" class="mb-4" />
-                            <x-form.input label="Alamat Kost" name="alamat-kost" placeholder="Masukkan alamat kost" class="mb-4" />
+                            <x-form.input label="Nama Kost" name="nama_kost" placeholder="Masukkan nama kost" class="mb-4" />
+                            <x-form.input label="Alamat Kost" name="alamat_kost" placeholder="Masukkan alamat kost" class="mb-4" />
 
                             {{-- FILE UPLOAD --}}
-                            <div x-data="fileUpload()" class="w-full mb-1">
+                            <div x-data="{
+                                file: null,
+                                fileSize: '',
+                                handleFile(event) {
+                                    this.file = event.target.files[0];
+                                    this.fileSize = (this.file.size / 1024 / 1024).toFixed(2) + ' MB';
+                                },
+                                removeFile() {
+                                    this.file = null;
+                                    this.fileSize = '';
+                                }
+                            }" class="w-full mb-1" name="sertifikat">
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Upload Sertifikat/Kepemilikan Tanah (Wajib)
@@ -155,11 +167,11 @@
                                 {{-- INPUT (DI LUAR BOX) --}}
                                 <input
                                     type="file"
-                                    name="bukti"
+                                    name="sertifikat"
                                     accept=".pdf"
                                     class="hidden"
                                     x-ref="file"
-                                    @change="handleFile">
+                                    @change="handleFile($event)">
 
                             </div>
                             <p class="text-neutral text-xs mb-4">Dokumen ini digunakan untuk verifikasi kepemilikan kost</p>
@@ -167,7 +179,7 @@
                             <x-form.button
                                 type="button"
                                 class="w-full mt-4"
-                                @click="$dispatch('open-modal', 'pending')">
+                                @click="$dispatch('open-modal', 'pending'); $el.closest('form').submit()">
                                 Daftar
                             </x-form.button>
 

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\PenghuniAuthController;
+use App\Http\Controllers\Auth\PengelolaAuthController;
+use App\Http\Controllers\Auth\LoginController;
 
 
 /*
@@ -25,6 +27,9 @@ Route::get('/', function () {
 Route::get('/pengelola/register', function () {
     return view('pages.auth.pengelola.register-pengelola');
 })->name('register.pengelola');
+Route::get('/pengelola/dashboard', function () {
+    return view('pages.pengelola.dashboard-pengelola');
+})->name('pengelola.dashboard');
 
 //Penghuni
 Route::get('/penghuni/register', function () {
@@ -35,14 +40,20 @@ Route::get('/penghuni/index', function () {
 })->name('penghuni.index');
 
 // Login & Lupa Password
-Route::get('/login', function () {
-    return view('pages.auth.login');
-})->name('login');
+Route::get('/login', function () { return view('pages.auth.login'); })->name('login');
 Route::get('/lupa-password', function () {
     return view('pages.auth.lupa-password');
 })->name('lupa-password');
 
+// route with controller
+Route::controller(LoginController::class)->group(function () {
+    Route::post('/login', 'sessionLogin')->name('login');
+});
+
 Route::controller(PenghuniAuthController::class)->group(function () {
-    Route::post('/penghuni/register', 'store')->name('penghuni.store');
-    Route::post('/penghuni/login', 'sessionLogin')->name('penghuni.sessionLogin');
+    Route::post('/penghuni/register/store', 'store')->name('penghuni.store');
+});
+
+Route::controller(PengelolaAuthController::class)->group(function () {
+    Route::post('/pengelola/register/store', 'store')->name('pengelola.store');
 });

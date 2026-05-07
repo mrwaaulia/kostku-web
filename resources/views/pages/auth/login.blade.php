@@ -18,7 +18,7 @@
                 <x-card class="w-[500px]">
                     <h1 class="lg:text-3xl text-xl text-black font-bold mb-4">Login</h1>
                     <p class="text-neutral text-sm mb-6">Masuk ke akun Anda</p>
-                    <form action="{{ route('penghuni.sessionLogin') }}" method="POST">
+                    <form action="{{ route('login') }}" method="POST">
                         @csrf
                         <div>
                             <x-form.input
