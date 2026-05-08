@@ -54,6 +54,7 @@
         </div>
 
 
+        
         {{-- Kamar Kosong --}}
         <div class="bg-white border border-red-400 rounded-2xl p-4 lg:p-5">
 
