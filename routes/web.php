@@ -34,7 +34,9 @@ Route::get('/penghuni/register', function () {
 })->name('register.penghuni');
 
 // Login & Lupa Password
-Route::get('/login', function () { return view('pages.auth.login'); })->name('login');
+Route::get('/login', function () {
+    return view('pages.auth.login');
+})->name('login');
 Route::get('/lupa-password', function () {
     return view('pages.auth.lupa-password');
 })->name('lupa-password');
@@ -59,9 +61,9 @@ Route::controller(PengelolaAuthController::class)->group(function () {
 | PENGHUNI
 |--------------------------------------------------------------------------
 */
-Route::get('/penghuni/index', function () {
+Route::get('/penghuni/dashboard-penghuni', function () {
     return view('pages.penghuni.dashboard.dashboard-penghuni');
-})->name('penghuni.dashboard');
+})->name('penghuni.dashboard-penghuni');
 Route::get('/pembayaran-penghuni', function () {
     return view('pages.penghuni.pembayaran-penghuni');
 })->name('pembayaran.penghuni');

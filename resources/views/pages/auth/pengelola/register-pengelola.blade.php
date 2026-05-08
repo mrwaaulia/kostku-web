@@ -54,7 +54,7 @@
                             <x-form.input label="Nama Pengelola" name="nama" placeholder="Masukkan nama lengkap" placeholder="Masukkan nama lengkap" class="mb-4" />
                             <x-form.input label="Nomor telepon" name="telpon" placeholder="08xxxxxxxxxx" class="mb-4" />
                             <x-form.input label="Email" name="email" type="email" placeholder="contoh@gmail.com" class="mb-4" />
-                            <x-form.input label="Password" name="password" placeholder="Masukkan password" type="password" class="mb-4" />
+                            <div class="mb-4"><x-form.input label="Password" name="password" placeholder="Masukkan password" type="password" /></div>
                             <x-form.input label="Alamat" name="alamat" placeholder="Masukkan alamat lengkap" class="mb-4" />
 
                             <x-form.button type="button" class="w-full my-4" @click="step = 2">
@@ -213,9 +213,9 @@
                     <template x-if="status === 'pending'">
                         <div class="flex flex-col items-center">
 
-                            <x-card class="w-18 h-20 bg-[#FEF5B2] flex items-center justify-center rounded-2xl">
+                            <div class="shadow-md px-8 py-10 w-18 h-20 bg-[#FEF5B2] flex items-center justify-center rounded-2xl">
                                 <img src="{{ asset('assets/icons/pending-icon.png') }}" class="w-7">
-                            </x-card>
+                            </div>
 
                             <x-badge type="warning" class="my-4">
                                 Menunggu Verifikasi
@@ -239,9 +239,9 @@
                     <template x-if="status === 'verified'">
                         <div class="flex flex-col items-center">
 
-                            <x-card class="w-18 h-20 bg-[#CFEFC7] flex items-center justify-center rounded-2xl">
+                            <div class="shadow-md px-8 py-10 w-18 h-20 bg-[#FEF5B2] flex items-center justify-center rounded-2xl">
                                 <img src="{{ asset('assets/icons/verified-icon.png') }}" class="w-10">
-                            </x-card>
+                            </div>
 
                             <x-badge type="success" class="my-4">
                                 Akun Disetujui
