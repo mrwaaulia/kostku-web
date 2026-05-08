@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class PengelolaAuthController extends Controller {
@@ -32,5 +33,12 @@ class PengelolaAuthController extends Controller {
         ]);
 
         return redirect()->route('login')->withSuccess('Registration successful! You can now login!');
+    }
+
+        public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
     }
 }

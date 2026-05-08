@@ -77,19 +77,20 @@
 
             {{-- LOGOUT --}}
             <a
-                href="{{ route('login') }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#F5F6FA]">
+                href="#"
+                class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#F5F6FA] cursor-pointer"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 
-                <img
-                    src="{{ asset('assets/icons/logout-icon.png') }}"
-                    class="w-5 h-5">
+                <img src="{{ asset('assets/icons/logout-icon.png') }}" class="w-5 h-5">
 
                 <span class="text-[#E73D2E]">
                     Logout
                 </span>
-
             </a>
 
+            <form id="logout-form" action="{{ route('pengelola.logout') }}" method="POST" class="hidden">
+                @csrf
+            </form>
         </div>
 
     </aside>

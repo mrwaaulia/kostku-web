@@ -57,9 +57,12 @@
                             <x-form.input label="Password" name="password" placeholder="Masukkan password" type="password" class="mb-4" />
                             <x-form.input label="Alamat" name="alamat" placeholder="Masukkan alamat lengkap" class="mb-4" />
 
-                            <x-form.button type="button" class="w-full mt-8" @click="step = 2">
+                            <x-form.button type="button" class="w-full my-4" @click="step = 2">
                                 Lanjut
                             </x-form.button>
+                            <div class="flex justify-center">
+                                <p class="md:text-md text-sm text-[#686868]">Sudah punya akun?<span class="text-primary font-semibold"><a href="{{ route('login') }}"> Login</a></span></p>
+                            </div>
                         </div>
 
                         {{-- STEP 2 --}}
@@ -178,11 +181,13 @@
 
                             <x-form.button
                                 type="button"
-                                class="w-full mt-4"
+                                class="w-full my-4"
                                 @click="$dispatch('open-modal', 'pending'); $el.closest('form').submit()">
                                 Daftar
                             </x-form.button>
-
+                            <div class="flex justify-center">
+                                <p class="md:text-md text-sm text-[#686868]">Sudah punya akun?<span class="text-primary font-semibold"><a href="{{ route('login') }}"> Login</a></span></p>
+                            </div>
                         </div>
 
                     </form>

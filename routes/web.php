@@ -14,7 +14,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/', function () {
     return view('pages.landing.role-select');
-});
+})->name('landing');
 
 
 /*
@@ -27,17 +27,11 @@ Route::get('/', function () {
 Route::get('/pengelola/register', function () {
     return view('pages.auth.pengelola.register-pengelola');
 })->name('register.pengelola');
-Route::get('/pengelola/dashboard', function () {
-    return view('pages.pengelola.dashboard-pengelola');
-})->name('pengelola.dashboard');
 
 //Penghuni
 Route::get('/penghuni/register', function () {
     return view('pages.auth.penghuni.register-penghuni');
 })->name('register.penghuni');
-Route::get('/penghuni/index', function () {
-    return view('pages.penghuni.dashboard-penghuni');
-})->name('penghuni.index');
 
 // Login & Lupa Password
 Route::get('/login', function () { return view('pages.auth.login'); })->name('login');
@@ -52,10 +46,12 @@ Route::controller(LoginController::class)->group(function () {
 
 Route::controller(PenghuniAuthController::class)->group(function () {
     Route::post('/penghuni/register/store', 'store')->name('penghuni.store');
+    Route::post('/penghuni/logout', 'logout')->name('penghuni.logout');
 });
 
 Route::controller(PengelolaAuthController::class)->group(function () {
     Route::post('/pengelola/register/store', 'store')->name('pengelola.store');
+    Route::post('/pengelola/logout', 'logout')->name('pengelola.logout');
 });
 
 /*
@@ -63,16 +59,15 @@ Route::controller(PengelolaAuthController::class)->group(function () {
 | PENGHUNI
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard-penghuni', function () {
+Route::get('/penghuni/index', function () {
     return view('pages.penghuni.dashboard.dashboard-penghuni');
-})->name('dashboard.penghuni');
+})->name('penghuni.dashboard');
 Route::get('/pembayaran-penghuni', function () {
     return view('pages.penghuni.pembayaran-penghuni');
 })->name('pembayaran.penghuni');
 Route::get('/pengaduan-penghuni', function () {
     return view('pages.penghuni.pengaduan-penghuni');
 })->name('pengaduan.penghuni');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -94,4 +89,3 @@ Route::get('/pengaduan-pengelola', function () {
 Route::get('/penghuni.pengelola', function () {
     return view('pages.pengelola.penghuni-pengelola');
 })->name('penghuni.pengelola');
-

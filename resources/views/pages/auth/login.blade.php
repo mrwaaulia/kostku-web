@@ -38,7 +38,7 @@
                         <x-form.button type="submit" class="my-8">Login</x-form.button>
                     </form>
                     <div class="flex justify-center">
-                        <p class="md:text-md text-sm text-[#686868]">Belum punya akun?<span class="text-primary font-semibold"><a href="{{ route('register.penghuni') }}"> Daftar</a></span></p>
+                        <p class="md:text-md text-sm text-[#686868]">Belum punya akun?<span class="text-primary font-semibold"><a href="{{ route('landing') }}"> Daftar</a></span></p>
                     </div>
                 </x-card>
             </div>

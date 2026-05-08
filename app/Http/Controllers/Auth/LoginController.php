@@ -20,7 +20,7 @@ class LoginController extends \App\Http\Controllers\Controller
         if (Auth::user()->role == 'penghuni') {
             return redirect()->route('penghuni.index');
         } elseif (Auth::user()->role == 'pengelola') {
-            return redirect()->route('pengelola.dashboard');
+            return redirect()->route('dashboard.pengelola');
         } else {
             return redirect()->route('superadmin.dashboard');
         }
