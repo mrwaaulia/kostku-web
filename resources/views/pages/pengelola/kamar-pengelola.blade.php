@@ -1,6 +1,6 @@
 @extends('layouts.pengelola')
-@section('title', 'Dashboard Pengelola')
+@section('title', 'Kamar')
 
 @section('content')
-<div>dashboard</div>
+<div>kamar</div>
 @endsection

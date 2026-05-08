@@ -74,5 +74,24 @@ Route::get('/pengaduan-penghuni', function () {
 })->name('pengaduan.penghuni');
 
 
-
+/*
+|--------------------------------------------------------------------------
+| PENGELOLA
+|--------------------------------------------------------------------------
+*/
+Route::get('/dashboard-pengelola', function () {
+    return view('pages.pengelola.dashboard-pengelola');
+})->name('dashboard.pengelola');
+Route::get('/kamar', function () {
+    return view('pages.pengelola.kamar-pengelola');
+})->name('kamar.pengelola');
+Route::get('/pembayaran', function () {
+    return view('pages.pengelola.pembayaran-pengelola');
+})->name('pembayaran.pengelola');
+Route::get('/pengaduan-pengelola', function () {
+    return view('pages.pengelola.pengaduan-pengelola');
+})->name('pengaduan.pengelola');
+Route::get('/penghuni.pengelola', function () {
+    return view('pages.pengelola.penghuni-pengelola');
+})->name('penghuni.pengelola');
 

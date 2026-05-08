@@ -9,7 +9,7 @@
 
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-20 mb-8 lg:mb-14">
             <a href="{{ route('register.penghuni') }}" class="bg-white flex flex-col justify-center items-center max-w-sm p-6 border border-default rounded-md shadow-xs hover:bg-neutral-secondary-medium">
-                <img src="{{ asset('assets/icons/penghuni-icon.png') }}" alt="penghuni" class="mb-2">
+                <img src="{{ asset('assets/icons/penghuni-auth-icon.png') }}" alt="penghuni" class="mb-2">
                 <h5 class="mb-3 md:text-lg text-md font-semibold tracking-tight text-heading leading-8">Penghuni</h5>
                 <p class="text-body md:text-sm text-[12px] text-center">Kelola aktivitas sebagai penghuni kost</p>
             </a>
