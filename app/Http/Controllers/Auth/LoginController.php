@@ -8,26 +8,27 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends \App\Http\Controllers\Controller
 {
-    public function sessionLogin(Request $request){
-    $credentials = $request->validate([
-        'email' => 'required|string|email|max:255',
-        'password' => 'required|string|min:8',
-    ]);
+    public function sessionLogin(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
+        ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        if (Auth::user()->role == 'penghuni') {
-            return redirect()->route('penghuni.index');
-        } elseif (Auth::user()->role == 'pengelola') {
-            return redirect()->route('dashboard.pengelola');
-        } else {
-            return redirect()->route('superadmin.dashboard');
+            if (Auth::user()->role == 'penghuni') {
+                return redirect()->route('penghuni.dashboard-penghuni');
+            } elseif (Auth::user()->role == 'pengelola') {
+                return redirect()->route('dashboard.pengelola');
+            } else {
+                return redirect()->route('superadmin.dashboard');
+            }
         }
-    }
 
-    return back()->withErrors([
-        'email' => 'Email or password is incorrect. Please try again!',
-    ]);
+        return back()->withErrors([
+            'email' => 'Email or password is incorrect. Please try again!',
+        ]);
     }
 }
