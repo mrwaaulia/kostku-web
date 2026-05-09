@@ -9,6 +9,9 @@ use App\Models\User;
 
 class PenghuniAuthController extends Controller
 {
+    public function viewRegister(){
+        return view('pages.auth.penghuni.register-penghuni');
+    }
 
     public function store(Request $request){
         $request->validate([

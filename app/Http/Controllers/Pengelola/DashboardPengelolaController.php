@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class DashboardPengelolaController extends Controller
 {
-    //
+    public function viewDashboard()
+    {
+        return view('pages.pengelola.dashboard-pengelola');
+    }
 }

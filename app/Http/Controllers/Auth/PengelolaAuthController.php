@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class PengelolaAuthController extends Controller {
+    public function viewRegister(){
+        return view('pages.auth.pengelola.register-pengelola');
+    }
     public function store(Request $request) {
         $request->validate([
             'nama' => 'required|string|max:255',

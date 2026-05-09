@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class PembayaranPengelolaController extends Controller
 {
-    //
+    public function viewPembayaran()
+    {
+        return view('pages.pengelola.pembayaran.pembayaran-pengelola');
+    }
 }

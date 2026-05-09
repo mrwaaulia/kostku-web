@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-// use App\Models\User;
+use Illuminate\Http\Request;
 
-class LoginController extends \App\Http\Controllers\Controller
+class LoginController extends Controller
 {
+    public function view(){
+        return view('pages.auth.login');
+    }
+
     public function sessionLogin(Request $request)
     {
         $credentials = $request->validate([
@@ -19,11 +23,11 @@ class LoginController extends \App\Http\Controllers\Controller
             $request->session()->regenerate();
 
             if (Auth::user()->role == 'penghuni') {
-                return redirect()->route('penghuni.dashboard-penghuni');
+                return redirect()->route('dashboard.penghuni');
             } elseif (Auth::user()->role == 'pengelola') {
                 return redirect()->route('dashboard.pengelola');
             } else {
-                return redirect()->route('superadmin.dashboard');
+                return redirect()->route('dashboard.superadmin');
             }
         }
 

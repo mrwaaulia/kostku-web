@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class KamarPengelolaController extends Controller
 {
-    //
+    public function viewKamar()
+    {
+        return view('pages.pengelola.kamar.kamar-pengelola');
+    }
 }

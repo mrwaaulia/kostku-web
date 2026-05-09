@@ -1,10 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Auth\PenghuniAuthController;
 use App\Http\Controllers\Auth\PengelolaAuthController;
+use App\Http\Controllers\Auth\LupaPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 
+use App\Http\Controllers\Penghuni\PengaduanPenghuniController;
+use App\Http\Controllers\Pengelola\DashboardPengelolaController;
+use App\Http\Controllers\Penghuni\DashboardPenghuniController;
+
+use App\Http\Controllers\Pengelola\KamarPengelolaController;
+use App\Http\Controllers\Pengelola\PembayaranPengelolaController;
+use App\Http\Controllers\Pengelola\PengaduanPengelolaController;
+use App\Http\Controllers\Pengelola\PenghuniPengelolaController;
+
+use App\Http\Controllers\SuperAdmin\DashboardSuperAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,78 +28,97 @@ Route::get('/', function () {
     return view('pages.landing.role-select');
 })->name('landing');
 
-
 /*
 |--------------------------------------------------------------------------
 | AUTH
 |--------------------------------------------------------------------------
 */
 
-// Pengelola
-Route::get('/pengelola/register', function () {
-    return view('pages.auth.pengelola.register-pengelola');
-})->name('register.pengelola');
-
-//Penghuni
-Route::get('/penghuni/register', function () {
-    return view('pages.auth.penghuni.register-penghuni');
-})->name('register.penghuni');
-
-// Login & Lupa Password
-Route::get('/login', function () {
-    return view('pages.auth.login');
-})->name('login');
-Route::get('/lupa-password', function () {
-    return view('pages.auth.lupa-password');
-})->name('lupa-password');
-
-// route with controller
+// Login Controller
 Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'view')->name('login');
     Route::post('/login', 'sessionLogin')->name('login');
 });
 
+// Lupa Password
+Route::controller(LupaPasswordController::class)->group(function () {
+    Route::get('/lupa-password', 'view')->name('lupa-password');
+});
+
+// Penghuni Auth
 Route::controller(PenghuniAuthController::class)->group(function () {
     Route::post('/penghuni/register/store', 'store')->name('penghuni.store');
     Route::post('/penghuni/logout', 'logout')->name('penghuni.logout');
+    Route::get('/penghuni/register', 'viewRegister')->name('register.penghuni');
 });
 
+// Pengelola Auth
 Route::controller(PengelolaAuthController::class)->group(function () {
     Route::post('/pengelola/register/store', 'store')->name('pengelola.store');
     Route::post('/pengelola/logout', 'logout')->name('pengelola.logout');
+    Route::get('/pengelola/register', 'viewRegister')->name('register.pengelola');
 });
+
 
 /*
 |--------------------------------------------------------------------------
 | PENGHUNI
 |--------------------------------------------------------------------------
 */
-Route::get('/penghuni/dashboard-penghuni', function () {
-    return view('pages.penghuni.dashboard.dashboard-penghuni');
-})->name('penghuni.dashboard-penghuni');
-Route::get('/pembayaran-penghuni', function () {
-    return view('pages.penghuni.pembayaran-penghuni');
-})->name('pembayaran.penghuni');
-Route::get('/pengaduan-penghuni', function () {
-    return view('pages.penghuni.pengaduan-penghuni');
-})->name('pengaduan.penghuni');
+
+// Dashboard Penghuni
+Route::controller(DashboardPenghuniController::class)->group(function () {
+    Route::get('/penghuni/dashboard-penghuni', 'viewDashboard')->name('dashboard.penghuni');
+});
+
+// Pembayaran Penghuni
+Route::controller(DashboardPenghuniController::class)->group(function () {
+    Route::get('/penghuni/pembayaran-penghuni', 'viewPembayaran')->name('pembayaran.penghuni');
+});
+
+// Pengaduan Penghuni
+Route::controller(PengaduanPenghuniController::class)->group(function () {
+    Route::get('/penghuni/pengaduan-penghuni', 'viewPengaduan')->name('pengaduan.penghuni');
+});
 
 /*
 |--------------------------------------------------------------------------
 | PENGELOLA
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard-pengelola', function () {
-    return view('pages.pengelola.dashboard-pengelola');
-})->name('dashboard.pengelola');
-Route::get('/kamar', function () {
-    return view('pages.pengelola.kamar-pengelola');
-})->name('kamar.pengelola');
-Route::get('/pembayaran', function () {
-    return view('pages.pengelola.pembayaran-pengelola');
-})->name('pembayaran.pengelola');
-Route::get('/pengaduan-pengelola', function () {
-    return view('pages.pengelola.pengaduan-pengelola');
-})->name('pengaduan.pengelola');
-Route::get('/penghuni.pengelola', function () {
-    return view('pages.pengelola.penghuni-pengelola');
-})->name('penghuni.pengelola');
+
+// Dashboard Pengelola
+Route::controller(DashboardPengelolaController::class)->group(function () {
+    Route::get('/pengelola/dashboard-pengelola', 'viewDashboard')->name('dashboard.pengelola');
+});
+
+// Kamar Pengelola
+Route::controller(KamarPengelolaController::class)->group(function () {
+    Route::get('/pengelola/kamar-pengelola', 'viewKamar')->name('kamar.pengelola');
+});
+
+// Pembayaran Pengelola
+Route::controller(PembayaranPengelolaController::class)->group(function () {
+    Route::get('/pengelola/pembayaran-pengelola', 'viewPembayaran')->name('pembayaran.pengelola');
+});
+
+// Pengaduan Pengelola
+Route::controller(PengaduanPengelolaController::class)->group(function () {
+    Route::get('/pengelola/pengaduan-pengelola', 'viewPengaduan')->name('pengaduan.pengelola');
+});
+
+// Penghuni Pengelola
+Route::controller(PenghuniPengelolaController::class)->group(function () {
+    Route::get('/pengelola/penghuni-pengelola', 'viewPenghuni')->name('penghuni.pengelola');
+});
+
+/*
+|--------------------------------------------------------------------------
+| SUPER ADMIN
+|--------------------------------------------------------------------------
+*/
+
+// Dashboard Super Admin
+Route::controller(DashboardSuperAdminController::class)->group(function () {
+    Route::get('/superadmin/dashboard-superadmin', 'viewDashboard')->name('dashboard.superadmin');
+});

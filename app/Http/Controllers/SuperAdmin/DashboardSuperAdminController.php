@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class DashboardSuperAdminController extends Controller
 {
-    //
+    public function viewDashboard()
+    {
+        return view('pages.super-admin.dashboard-super-admin');
+    }
 }

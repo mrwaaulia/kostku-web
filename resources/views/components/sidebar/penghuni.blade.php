@@ -46,7 +46,7 @@
                 <x-sidebar.item
                     title="Dashboard"
                     icon="dashboard-icon"
-                    :route="route('penghuni.dashboard-penghuni')"
+                    :route="route('dashboard.penghuni')"
                     :active="request()->routeIs('penghuni.dashboard-penghuni')" />
 
                 <x-sidebar.item
@@ -78,7 +78,7 @@
                 </span>
             </a>
 
-            <form id="logout-form" action="{{ route('pengelola.logout') }}" method="POST" class="hidden">
+            <form id="logout-form" action="{{ route('penghuni.logout') }}" method="POST" class="hidden">
                 @csrf
             </form>
         </div>

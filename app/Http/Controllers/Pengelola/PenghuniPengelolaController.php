@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class PenghuniPengelolaController extends Controller
 {
-    //
+    public function viewPenghuni()
+    {
+        return view('pages.pengelola.penghuni.penghuni-pengelola');
+    }
 }
