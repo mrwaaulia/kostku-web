@@ -9,6 +9,6 @@ class PengaduanPengelolaController extends Controller
 {
     public function viewPengaduan()
     {
-        return view('pages.pengelola.pengaduan.pengaduan-pengelola');
+        return view('pages.pengelola.pengaduan-pengelola');
     }
 }

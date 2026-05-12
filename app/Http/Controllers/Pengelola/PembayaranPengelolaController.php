@@ -9,6 +9,6 @@ class PembayaranPengelolaController extends Controller
 {
     public function viewPembayaran()
     {
-        return view('pages.pengelola.pembayaran.pembayaran-pengelola');
+        return view('pages.pengelola.pembayaran-pengelola');
     }
 }

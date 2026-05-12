@@ -9,6 +9,6 @@ class PenghuniPengelolaController extends Controller
 {
     public function viewPenghuni()
     {
-        return view('pages.pengelola.penghuni.penghuni-pengelola');
+        return view('pages.pengelola.penghuni-pengelola');
     }
 }

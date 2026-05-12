@@ -8,9 +8,10 @@ use App\Http\Controllers\Auth\LupaPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 
 use App\Http\Controllers\Penghuni\PengaduanPenghuniController;
-use App\Http\Controllers\Pengelola\DashboardPengelolaController;
+use App\Http\Controllers\Penghuni\PembayaranPenghuniController;
 use App\Http\Controllers\Penghuni\DashboardPenghuniController;
 
+use App\Http\Controllers\Pengelola\DashboardPengelolaController;
 use App\Http\Controllers\Pengelola\KamarPengelolaController;
 use App\Http\Controllers\Pengelola\PembayaranPengelolaController;
 use App\Http\Controllers\Pengelola\PengaduanPengelolaController;
@@ -72,7 +73,7 @@ Route::controller(DashboardPenghuniController::class)->group(function () {
 });
 
 // Pembayaran Penghuni
-Route::controller(DashboardPenghuniController::class)->group(function () {
+Route::controller(PembayaranPenghuniController::class)->group(function () {
     Route::get('/penghuni/pembayaran-penghuni', 'viewPembayaran')->name('pembayaran.penghuni');
 });
 
@@ -95,6 +96,7 @@ Route::controller(DashboardPengelolaController::class)->group(function () {
 // Kamar Pengelola
 Route::controller(KamarPengelolaController::class)->group(function () {
     Route::get('/pengelola/kamar-pengelola', 'viewKamar')->name('kamar.pengelola');
+    Route::post('/pengelola/kamar-pengelola/store', 'storeKamar')->name('kamar.store');
 });
 
 // Pembayaran Pengelola
