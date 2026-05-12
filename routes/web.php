@@ -38,7 +38,7 @@ Route::get('/', function () {
 // Login Controller
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'view')->name('login');
-    Route::post('/login', 'sessionLogin')->name('login');
+    Route::post('/postLogin', 'sessionLogin')->name('sessionLogin');
 });
 
 // Lupa Password

@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('kamars', function (Blueprint $table) {
-            $table->id('nomor_kamar')->unique();
+        Schema::create('kamars', function (Blueprint $table) {
+            $table->id();
+            $table->string('nomor_kamar')->unique();
+            $table->foreignId('kode_kost')->constrained('kosts')->onDelete('cascade');
             $table->string('tipe_kamar');
             $table->integer('harga');
             $table->enum('status', ['terisi', 'kosong'])->default('kosong');
             $table->text('fasilitas')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

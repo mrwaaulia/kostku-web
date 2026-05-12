@@ -19,26 +19,11 @@ class Penghuni extends Model
     ];
 
     // Relasi ke User (Akun Login)
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
+public function user() {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relasi ke Kamar
-    public function kamar(): BelongsTo
-    {
-        return $this->belongsTo(Kamar::class);
-    }
-
-    // Relasi ke Riwayat Pembayaran
-    public function pembayaranan(): HasMany
-    {
-        return $this->hasMany(Pembayaran::class);
-    }
-
-    // Relasi ke Pengaduan
-    public function pengaduan(): HasMany
-    {
-        return $this->hasMany(Pengaduan::class);
+    public function kamar() {
+        return $this->belongsTo(Kamar::class, 'nomor_kamar', 'id');
     }
 }

@@ -13,13 +13,11 @@ return new class extends Migration
     {
     Schema::create('penghunis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('nomor_kamar')->references('nomor_kamar')->on('kamars')->onDelete('cascade');
-            $table->string('kode_kost');
-            $table->integer('no_hp');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('nomor_kamar')->constrained('kamars')->onDelete('cascade');
             $table->date('tanggal_masuk');
             $table->date('tanggal_keluar')->nullable();
-            $table->enum('is_redflag', ['no', 'yes'])->default('no')->nullable(); // untuk cek penghuni radflag atau bukan
+            $table->enum('is_redflag', ['no', 'yes'])->default('no')->nullable();
             $table->text('notes_penghuni')->nullable();
             $table->timestamps();
         });

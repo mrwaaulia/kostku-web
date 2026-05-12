@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kode_kosts', function (Blueprint $table) {
+        Schema::create('kosts', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_kost')->unique(); // Misal: 'access_code'
-            $table->string('value');
+            $table->string('kode_kost')->unique();
+            $table->string('nama_kost')->nullable();
+            $table->string('alamat_kost')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('sertifikat')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kode_kosts');
+        Schema::dropIfExists('kosts');
     }
 };

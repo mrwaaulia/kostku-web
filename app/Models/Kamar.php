@@ -8,15 +8,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Kamar extends Model
 {
     protected $fillable = [
-        'room_number',
-        'price_per_month',
+        'nomor_kamar',
+        'kode_kost',
+        'tipe_kamar',
+        'harga',
         'status',
-        'description'
+        'fasilitas',
+        'user_id',
     ];
 
     // Satu kamar bisa memiliki sejarah banyak penghuni (tapi biasanya 1 yang aktif)
-    public function penghuni(): HasMany
-    {
-        return $this->hasMany(Penghuni::class);
+    public function kost() {
+        return $this->belongsTo(Kost::class, 'kode_kost', 'id');
+    }
+
+        // Kamar mungkin sedang diisi oleh satu User (Penghuni)
+    public function penghuni() {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

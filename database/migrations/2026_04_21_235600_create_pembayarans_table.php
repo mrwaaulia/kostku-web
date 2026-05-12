@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('id_pembayaran')->unique();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('tanggal_pembayaran');
             $table->integer('nominal');
-            $table->enum('payment_type', ['full', 'installment']);
-            $table->integer('installment_count')->default(1);
+            $table->enum('tipe_pembayaran', ['lunas', 'cicilan'])->default('lunas');
+            $table->integer('jumlah_cicilan')->default(1);
             $table->enum('status', ['belum_bayar', 'lunas'])->default('belum_bayar');
             $table->string('snap_token')->nullable(); // Token dari Midtrans
             $table->timestamps();

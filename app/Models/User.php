@@ -54,8 +54,20 @@ class User extends Authenticatable
     }
 
     // funtion untuk berelasi ke table role
-    public function penghuni(){
-        return $this->hasOne(Penghuni::class);
+public function kosts() {
+        return $this->hasMany(Kost::class, 'user_id');
+    }
+
+    public function pembayarans() {
+        return $this->hasMany(Pembayaran::class, 'user_id');
+    }
+
+    public function pengaduans() {
+        return $this->hasMany(Pengaduan::class, 'user_id');
+    }
+
+    public function records() {
+        return $this->hasMany(Record::class, 'user_id');
     }
 
     // untuk memeriksa role user

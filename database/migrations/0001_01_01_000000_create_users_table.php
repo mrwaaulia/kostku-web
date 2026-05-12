@@ -14,14 +14,11 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('username')->nullable();
+            $table->string('username')->nullable()->unique();
             $table->bigInteger('telpon');
             $table->string('alamat');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('password');
-            $table->string('nama_kost')->nullable();
-            $table->string('alamat_kost')->nullable();
-            $table->string('sertifikat')->nullable();
             $table->enum('role', ['super_admin', 'pengelola', 'penghuni'])->default('penghuni');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
@@ -51,6 +48,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
     }
 };
