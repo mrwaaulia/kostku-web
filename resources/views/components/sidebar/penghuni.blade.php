@@ -47,7 +47,7 @@
                     title="Dashboard"
                     icon="dashboard-icon"
                     :route="route('dashboard.penghuni')"
-                    :active="request()->routeIs('penghuni.dashboard-penghuni')" />
+                    :active="request()->routeIs('dashboard.penghuni')" />
 
                 <x-sidebar.item
                     title="Pembayaran"
