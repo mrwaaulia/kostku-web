@@ -42,7 +42,7 @@
 
     <x-card>
         <h1 class="text-black text-xl font-bold mb-4">Riwayat Pembayaran</h1>
-        <x-table.index>
+        <x-table.index class="min-w-[700px]">
             <thead class="sticky top-0 bg-white z-10 border-b border-default">
                 <x-table.tr>
                     <x-table.th>

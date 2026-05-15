@@ -8,7 +8,7 @@ $classes = match($type) {
 'warning' => 'bg-[#FEF5B2] text-[#B39E04]',
 'danger' => 'bg-[#FFC5BF] text-[#B43024]',
 'info' => 'bg-secondary text-primary',
-default => 'bg-gray-100 text-gray-700',
+default => 'bg-gray-100 text-neutral border border-2 border-[#E2E2E2]',
 };
 @endphp
 

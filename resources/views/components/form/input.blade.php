@@ -4,6 +4,8 @@
 'type' => 'text',
 'placeholder' => '',
 'required',
+'readonly',
+'disabled'
 ])
 
 <div class="space-y-2">
@@ -27,6 +29,8 @@
             type="{{ $type }}"
             placeholder="{{ $placeholder }}"
             required
+            readonly
+            disabled
 
             {{ $attributes->merge([
                 'class' => '

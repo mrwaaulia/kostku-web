@@ -1,5 +1,7 @@
 <div
-    x-data="{ sidebarOpen: false }"
+    x-data="{ 
+    sidebarOpen: false,
+    notifOpen: false}"
     class="min-h-screen flex">
 
     {{-- ================= SIDEBAR OVERLAY MOBILE ================= --}}
@@ -117,11 +119,12 @@
 
                     {{-- NOTIFICATION --}}
                     <button
+                        @click="notifOpen = true"
                         class="
-                                relative
-                                w-11 h-11
-                                flex items-center justify-center
-                            ">
+        relative
+        w-11 h-11
+        flex items-center justify-center
+    ">
 
                         <img
                             src="{{ asset('assets/icons/notif-icon.png') }}"
@@ -130,11 +133,11 @@
                         {{-- DOT --}}
                         <span
                             class="
-                                    absolute top-2 right-2
-                                    w-2 h-2
-                                    rounded-full
-                                    bg-red-500
-                                ">
+            absolute top-2 right-2
+            w-2 h-2
+            rounded-full
+            bg-red-500
+        ">
                         </span>
 
                     </button>
@@ -164,5 +167,7 @@
         </main>
 
     </div>
+
+    <x-notification-modal />
 
 </div>
