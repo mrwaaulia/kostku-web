@@ -70,6 +70,8 @@ Route::controller(PengelolaAuthController::class)->group(function () {
 // Dashboard Penghuni
 Route::controller(DashboardPenghuniController::class)->group(function () {
     Route::get('/penghuni/dashboard-penghuni', 'viewDashboard')->name('dashboard.penghuni');
+    Route::post('/penghuni/dashboard-penghuni/join', 'joinKost')->name('penghuni.join');
+    Route::get('/penghuni/kode-kost', 'kodeKost')->name('kodekost.penghuni');
 });
 
 // Pembayaran Penghuni
@@ -97,6 +99,8 @@ Route::controller(DashboardPengelolaController::class)->group(function () {
 Route::controller(KamarPengelolaController::class)->group(function () {
     Route::get('/pengelola/kamar-pengelola', 'viewKamar')->name('kamar.pengelola');
     Route::post('/pengelola/kamar-pengelola/store', 'storeKamar')->name('kamar.store');
+    Route::post('/pengelola/kamar-pengelola/update/{id}', 'updateKamar')->name('kamar.update');
+    Route::post('/pengelola/kamar-pengelola/delete/{id}', 'deleteKamar')->name('kamar.destroy');
 });
 
 // Pembayaran Pengelola
@@ -112,6 +116,8 @@ Route::controller(PengaduanPengelolaController::class)->group(function () {
 // Penghuni Pengelola
 Route::controller(PenghuniPengelolaController::class)->group(function () {
     Route::get('/pengelola/penghuni-pengelola', 'viewPenghuni')->name('penghuni.pengelola');
+    Route::post('/pengelola/penghuni-pengelola/approve/{penghuni}', 'approvePenghuni')->name('penghuni.approve');
+    Route::post('/pengelola/penghuni-pengelola/reject/{penghuni}', 'rejectPenghuni')->name('penghuni.reject');
 });
 
 /*

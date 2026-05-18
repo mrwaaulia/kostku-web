@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('harga');
             $table->enum('status', ['terisi', 'kosong'])->default('kosong');
             $table->text('fasilitas')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            // $table->foreignId('penghuni_id')->constrained('penghunis')->onDelete('cascade');
             $table->timestamps();
         });
     }

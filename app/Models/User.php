@@ -54,8 +54,8 @@ class User extends Authenticatable
     }
 
     // funtion untuk berelasi ke table role
-public function kosts() {
-        return $this->hasMany(Kost::class, 'user_id');
+    public function kosts() {
+        return $this->hasOne(Kost::class, 'user_id');
     }
 
     public function pembayarans() {

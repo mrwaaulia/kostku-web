@@ -32,7 +32,8 @@
                 this.closeModal();
             }, 2200);
         }
-    }">
+    }"
+    x-init="@if(session('success')) modalOpen = true; modalType = 'success'; successMessage = '{{ session('success') }}'; @elseif(session('error')) modalOpen = true; modalType = 'success'; successMessage = '{{ session('error') }}'; @endif">
 
     {{-- ================= PAGE HEADER ================= --}}
     <x-page-header
@@ -143,179 +144,144 @@
 
                 </thead>
 
+                {{-- ================= KAMAR TERISI ================= --}}
+                <template x-if="activeTab === 'semua' || activeTab === 'terisi'">
+                    <tbody class="divide-y divide-gray-200">
+                        @forelse($allKamars->where('status', 'terisi') as $kamar)
+                            <tr class="border-b hover:bg-gray-50 transition">
+                                <td class="py-4 px-3 text-sm">
+                                    {{ $kamar->nomor_kamar }}
+                                </td>
 
-                <tbody>
+                                <td class="py-4 px-3 text-sm">
+                                    {{ $kamar->penghuni?->nama ?? '-' }}
+                                </td>
 
-                    {{-- ================= KAMAR TERISI ================= --}}
-                    <template x-if="activeTab === 'semua' || activeTab === 'terisi'">
+                                <td class="py-4 px-3 text-sm">
+                                    {{ $kamar->tipe_kamar }}
+                                </td>
 
-                        <tr class="border-b">
+                                <td class="py-4 px-3 text-sm">
+                                    Rp{{ number_format($kamar->harga, 0, ',', '.') }}
+                                </td>
 
-                            <td class="py-4 px-3 text-sm">
-                                KM001
+                                <td class="py-4 px-3 text-center">
+                                    <x-badge type="danger">Terisi</x-badge>
+                                </td>
+
+                                <td class="py-4 px-3">
+                                    <div class="flex items-center justify-center gap-2">
+                                        {{-- DETAIL --}}
+                                        <button
+                                            type="button"
+                                            @click="kamarStatus = 'terisi'; detailKamarNomor = '{{ $kamar->nomor_kamar }}'; detailKamarPenghuni = '{{ addslashes($kamar->penghuni?->nama ?? '-') }}'; detailKamarTipe = '{{ addslashes($kamar->tipe_kamar) }}'; detailKamarStatus = '{{ $kamar->status }}'; detailKamarHarga = '{{ $kamar->harga }}'; detailKamarFasilitas = '{{ addslashes($kamar->fasilitas ?? '-') }}'; openModal('detail-kamar')"
+                                            class="p-2 rounded-md hover:bg-blue-50 transition">
+                                            <img src="{{ asset('assets/icons/lihat-detail-icon.png') }}" class="w-4 h-4">
+                                        </button>
+
+                                        {{-- EDIT --}}
+                                        <button
+                                            type="button"
+                                            @click="kamarStatus = 'terisi'; openModal('edit-kamar')"
+                                            class="p-2 rounded-md hover:bg-yellow-50 transition">
+                                            <img src="{{ asset('assets/icons/edit-icon.png') }}" class="w-4">
+                                        </button>
+
+                                        {{-- DELETE --}}
+                                        <button
+                                            type="button"
+                                            @click="kamarStatus = 'terisi'; openModal('cannot-delete')"
+                                            class="p-2 rounded-md hover:bg-red-50 transition">
+                                            <img src="{{ asset('assets/icons/delete-icon.png') }}" class="w-4">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr x-show="activeTab === 'terisi'">
+                                <td colspan="6" class="py-8 text-center text-gray-500 text-sm">
+                                    Tidak ada data kamar terisi.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </template>
+
+                {{-- ================= KAMAR KOSONG ================= --}}
+                <template x-if="activeTab === 'semua' || activeTab === 'kosong'">
+                    <tbody class="divide-y divide-gray-200">
+                        @forelse($allKamars->where('status', 'kosong') as $kamar)
+                            <tr class="border-b hover:bg-gray-50 transition">
+                                <td class="py-4 px-3 text-sm">
+                                    {{ $kamar->nomor_kamar }}
+                                </td>
+
+                                <td class="py-4 px-3 text-sm">
+                                    {{ $kamar->penghuni?->nama ?? '-' }}
+                                </td>
+
+                                <td class="py-4 px-3 text-sm">
+                                    {{ $kamar->tipe_kamar }}
+                                </td>
+
+                                <td class="py-4 px-3 text-sm">
+                                    Rp{{ number_format($kamar->harga, 0, ',', '.') }}
+                                </td>
+
+                                <td class="py-4 px-3 text-center">
+                                    <x-badge type="success">Kosong</x-badge>
+                                </td>
+
+                                <td class="py-4 px-3">
+                                    <div class="flex items-center justify-center gap-2">
+                                        {{-- DETAIL --}}
+                                        <button
+                                            type="button"
+                                            @click="kamarStatus = 'kosong'; detailKamarNomor = '{{ $kamar->nomor_kamar }}'; detailKamarPenghuni = '{{ addslashes($kamar->penghuni?->nama ?? '-') }}'; detailKamarTipe = '{{ addslashes($kamar->tipe_kamar) }}'; detailKamarStatus = '{{ $kamar->status }}'; detailKamarHarga = '{{ $kamar->harga }}'; detailKamarFasilitas = '{{ addslashes($kamar->fasilitas ?? '-') }}'; openModal('detail-kamar')"
+                                            class="p-2 rounded-md hover:bg-blue-50 transition">
+                                            <img src="{{ asset('assets/icons/lihat-detail-icon.png') }}" class="w-4 h-4">
+                                        </button>
+
+                                        {{-- EDIT --}}
+                                        <button
+                                            type="button"
+                                            @click="kamarStatus = 'kosong'; openModal('edit-kamar')"
+                                            class="p-2 rounded-md hover:bg-yellow-50 transition">
+                                            <img src="{{ asset('assets/icons/edit-icon.png') }}" class="w-4">
+                                        </button>
+
+                                        {{-- DELETE --}}
+                                        <form action="{{ route('kamar.destroy', $kamar->id) }}" method="POST" class="delete-form">
+                                            @csrf
+                                            <button
+                                                type="button"
+                                                @click="kamarStatus = 'kosong'; openModal('confirm-delete')"
+                                                class="p-2 rounded-md hover:bg-red-50 transition">
+                                                <img src="{{ asset('assets/icons/delete-icon.png') }}" class="w-4">
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr x-show="activeTab === 'kosong'">
+                                <td colspan="6" class="py-8 text-center text-gray-500 text-sm">
+                                    Tidak ada data kamar kosong.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </template>
+
+                @if($allKamars->isEmpty())
+                    <tbody>
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-gray-500 text-sm">
+                                Belum ada data kamar terdaftar.
                             </td>
-
-                            <td class="py-4 px-3 text-sm">
-                                Anto Subagja
-                            </td>
-
-                            <td class="py-4 px-3 text-sm">
-                                Standard
-                            </td>
-
-                            <td class="py-4 px-3 text-sm">
-                                Rp500.000
-                            </td>
-
-                            <td class="py-4 px-3 text-center">
-                                <x-badge type="danger">
-                                    Terisi
-                                </x-badge>
-                            </td>
-
-                            <td class="py-4 px-3">
-
-                                <div class="flex items-center justify-center gap-2">
-
-                                    {{-- DETAIL --}}
-                                    <button
-                                        type="button"
-                                        @click="
-                                            kamarStatus = 'terisi';
-                                            openModal('detail-kamar')
-                                        "
-                                        class="p-2 rounded-md hover:bg-blue-50 transition">
-
-                                        <img
-                                            src="{{ asset('assets/icons/lihat-detail-icon.png') }}"
-                                            class="w-4 h-4">
-
-                                    </button>
-
-                                    {{-- EDIT --}}
-                                    <button
-                                        type="button"
-                                        @click="
-                                            kamarStatus = 'terisi';
-                                            openModal('edit-kamar')
-                                        "
-                                        class="p-2 rounded-md hover:bg-yellow-50 transition">
-
-                                        <img
-                                            src="{{ asset('assets/icons/edit-icon.png') }}"
-                                            class="w-4">
-
-                                    </button>
-
-                                    {{-- DELETE --}}
-                                    <button
-                                        type="button"
-                                        @click="
-                                            kamarStatus = 'terisi';
-                                            openModal('cannot-delete')
-                                        "
-                                        class="p-2 rounded-md hover:bg-red-50 transition">
-
-                                        <img
-                                            src="{{ asset('assets/icons/delete-icon.png') }}"
-                                            class="w-4">
-
-                                    </button>
-
-                                </div>
-
-                            </td>
-
                         </tr>
-
-                    </template>
-
-
-                    {{-- ================= KAMAR KOSONG ================= --}}
-                    <template x-if="activeTab === 'semua' || activeTab === 'kosong'">
-
-                        <tr class="border-b">
-
-                            <td class="py-4 px-3 text-sm">
-                                KM002
-                            </td>
-
-                            <td class="py-4 px-3 text-sm">
-                                -
-                            </td>
-
-                            <td class="py-4 px-3 text-sm">
-                                VIP
-                            </td>
-
-                            <td class="py-4 px-3 text-sm">
-                                Rp800.000
-                            </td>
-
-                            <td class="py-4 px-3 text-center">
-                                <x-badge type="success">
-                                    Kosong
-                                </x-badge>
-                            </td>
-
-                            <td class="py-4 px-3">
-
-                                <div class="flex items-center justify-center gap-2">
-
-                                    {{-- DETAIL --}}
-                                    <button
-                                        type="button"
-                                        @click="
-                                            kamarStatus = 'kosong';
-                                            openModal('detail-kamar')
-                                        "
-                                        class="p-2 rounded-md hover:bg-blue-50 transition">
-
-                                        <img
-                                            src="{{ asset('assets/icons/lihat-detail-icon.png') }}"
-                                            class="w-4 h-4">
-
-                                    </button>
-
-                                    {{-- EDIT --}}
-                                    <button
-                                        type="button"
-                                        @click="
-                                            kamarStatus = 'kosong';
-                                            openModal('edit-kamar')
-                                        "
-                                        class="p-2 rounded-md hover:bg-yellow-50 transition">
-
-                                        <img
-                                            src="{{ asset('assets/icons/edit-icon.png') }}"
-                                            class="w-4">
-
-                                    </button>
-
-                                    {{-- DELETE --}}
-                                    <button
-                                        type="button"
-                                        @click="
-                                            kamarStatus = 'kosong';
-                                            openModal('confirm-delete')
-                                        "
-                                        class="p-2 rounded-md hover:bg-red-50 transition">
-
-                                        <img
-                                            src="{{ asset('assets/icons/delete-icon.png') }}"
-                                            class="w-4">
-
-                                    </button>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    </template>
-
-                </tbody>
+                    </tbody>
+                @endif
 
             </table>
 
@@ -330,7 +296,6 @@
 
     {{-- ================= MODAL ================= --}}
     <x-modal show="modalOpen" maxWidth="lg:max-w-[550px] max-w-[360px]">
-
 
         {{-- ================= TAMBAH KAMAR ================= --}}
         <template x-if="modalType === 'tambah-kamar'">
@@ -351,49 +316,50 @@
                 </h2>
 
                 <div class="space-y-4">
+                        <form action="{{ route('kamar.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
 
-                    <x-form.input
-                        label="Nomor Kamar"
-                        name="nomor-kamar"
-                        placeholder="Contoh: KM001" class="text-sm" />
+                            <x-form.input
+                                label="Nomor Kamar"
+                                name="nomor_kamar"
+                                placeholder="Contoh: KM001" class="text-sm" />
 
-                    <x-form.select
-                        label="Tipe Kamar"
-                        name="tipe-kamar"
-                        placeholder="Pilih tipe kamar" class="text-sm">
-                        <option value="standard" class="text-xs">Standard</option>
-                        <option value="premium" class="text-xs">Premium</option>
+                            <x-form.select
+                                label="Tipe Kamar"
+                                name="tipe_kamar"
+                                placeholder="Pilih tipe kamar" class="text-sm">
+                                <option value="standard" class="text-xs">Standard</option>
+                                <option value="premium" class="text-xs">Premium</option>
 
-                    </x-form.select>
+                            </x-form.select>
 
-                    <x-form.input
-                        label="Harga per Bulan"
-                        name="harga"
-                        placeholder="Contoh: Rp500.000" class="text-sm" />
+                            <x-form.input
+                                label="Harga per Bulan"
+                                name="harga"
+                                placeholder="Contoh: Rp500.000" class="text-sm" />
 
-                    <x-form.input
-                        label="Fasilitas Kamar"
-                        name="fasilitas-kamar"
-                        placeholder="Contoh: Lemari, WiFi, dll" class="text-sm" />
+                            <x-form.input
+                                label="Fasilitas Kamar"
+                                name="fasilitas"
+                                placeholder="Contoh: Lemari, WiFi, dll" class="text-sm" />
 
-                    <div class="flex gap-3 pt-4">
+                        <div class="flex gap-3 pt-4">
 
-                        <x-form.button
-                            type="button"
-                            class="w-full bg-transparent border-2 border-primary !text-primary hover:bg-secondary hover:border-secondary hover:!text-primary"
-                            @click="closeModal()">
-                            Batal
-                        </x-form.button>
+                            <x-form.button
+                                type="button"
+                                class="w-full bg-transparent border-2 border-primary !text-primary hover:bg-secondary hover:border-secondary hover:!text-primary"
+                                @click="closeModal()">
+                                Batal
+                            </x-form.button>
 
-                        <x-form.button
-                            type="button"
-                            class="w-full"
-                            @click="showSuccess('Kamar berhasil ditambahkan')">
-                            Simpan
-                        </x-form.button>
+                            <x-form.button
+                                type="submit"
+                                class="w-full">
+                                Simpan
+                            </x-form.button>
 
+                        </form>
                     </div>
-
                 </div>
 
             </div>
@@ -427,14 +393,14 @@
                     <x-form.input
                         label="Nomor Kamar"
                         name="detail-nomor-kamar"
-                        value="KM001"
+                        x-model="detailKamarNomor"
                         class="lg:text-sm text-xs"
                         readonly />
 
                     <x-form.input
                         label="Nama Penghuni"
                         name="detail-penghuni"
-                        ::value="kamarStatus === 'kosong' ? '-' : 'Anton Subagja'"
+                        x-model="detailKamarPenghuni"
                         class="lg:text-sm text-xs"
                         readonly />
 
@@ -444,45 +410,36 @@
                         class="lg:text-sm text-xs"
                         disabled>
 
-                        <option selected>
-                            Standard
-                        </option>
+                        <option x-text="detailKamarTipe"></option>
 
                     </x-form.select>
 
                     <x-form.select
                         label="Status Kamar"
                         name="detail-status"
-                        x-model="kamarStatus"
+                        x-model="detailKamarStatus"
                         class="lg:text-sm text-xs"
                         disabled>
 
-                        <option value="kosong">
-                            Kosong
-                        </option>
-
-                        <option value="terisi">
-                            Terisi
-                        </option>
+                        <option value="kosong" x-text="detailKamarStatus === 'kosong' ? 'Kosong' : ''"></option>
+                        <option value="terisi" x-text="detailKamarStatus === 'terisi' ? 'Terisi' : ''"></option>
 
                     </x-form.select>
 
                     <x-form.input
                         label="Harga per Bulan"
                         name="detail-harga"
-                        value="Rp500.000"
+                        x-model="detailKamarHarga"
                         class="lg:text-sm text-xs"
                         readonly />
 
                     <x-form.input
                         label="Fasilitas Kamar"
                         name="detail-fasilitas"
-                        value="Lemari, WiFi"
+                        x-model="detailKamarFasilitas"
                         class="lg:text-sm text-xs"
                         readonly />
-
                 </div>
-
             </div>
 
         </template>
@@ -513,7 +470,7 @@
 
                     <x-form.input
                         label="Nomor Kamar"
-                        name="edit-nomor-kamar"
+                        name="nomor_kamar"
                         value="KM001"
                         class="lg:text-sm text-xs" />
 
@@ -638,7 +595,7 @@
                     <x-form.button
                         type="button"
                         class="w-full bg-red-600 hover:bg-red-100 hover:text-red-600"
-                        @click="showSuccess('Kamar berhasil dihapus')">
+                        @click="document.querySelector('.delete-form')?.submit()">
                         Hapus
                     </x-form.button>
 
