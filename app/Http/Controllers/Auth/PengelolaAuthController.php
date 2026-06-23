@@ -14,31 +14,67 @@ class PengelolaAuthController extends Controller
         return view('pages.auth.pengelola.register-pengelola');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
-            'nama'        => 'required|string|max:255',
-            'telpon'      => 'required|numeric',
-            'alamat'      => 'required|string|max:255',
-            'email'       => 'required|string|email|max:255|unique:users,email',
-            'password'    => 'required|string|min:8',
-            'nama_kost'   => 'required|string|max:255',
-            'alamat_kost' => 'required|string|max:255',
-            'sertifikat'  => 'required|file|max:10240|mimes:pdf',
+            'nama' => 'required|string|min:3|max:100',
+
+            'telpon' => [
+                'required',
+                'digits_between:11,15'
+            ],
+
+            'alamat' => 'required|string|min:10|max:255',
+
+            'email' => 'required|email|max:100|unique:users,email',
+
+            'password' => 'required|string|min:8|max:32',
+
+            'nama_kost' => 'required|string|min:3|max:100',
+
+            'alamat_kost' => 'required|string|min:10|max:255',
+
+            'sertifikat' => 'required|file|mimes:pdf|max:10240',
         ], [
-            'nama.required'        => 'Nama wajib diisi.',
-            'telpon.required'      => 'Nomor telepon wajib diisi.',
-            'telpon.numeric'       => 'Nomor telepon harus berupa angka.',
-            'alamat.required'      => 'Alamat wajib diisi.',
-            'email.required'       => 'Email wajib diisi.',
-            'email.email'          => 'Format email tidak valid.',
-            'email.unique'         => 'Email sudah terdaftar.',
-            'password.required'    => 'Password wajib diisi.',
-            'password.min'         => 'Password minimal 8 karakter.',
-            'nama_kost.required'   => 'Nama kost wajib diisi.',
+            // Nama
+            'nama.required' => 'Nama wajib diisi.',
+            'nama.min' => 'Nama minimal 3 karakter.',
+            'nama.max' => 'Nama maksimal 100 karakter.',
+
+            // Telepon
+            'telpon.required' => 'Nomor telepon wajib diisi.',
+            'telpon.digits_between' => 'Nomor telepon harus 11 sampai 15 digit.',
+
+            // Alamat
+            'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.min' => 'Alamat minimal 10 karakter.',
+            'alamat.max' => 'Alamat maksimal 255 karakter.',
+
+            // Email
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email maksimal 100 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+
+            // Password
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.max' => 'Password maksimal 32 karakter.',
+
+            // Nama Kost
+            'nama_kost.required' => 'Nama kost wajib diisi.',
+            'nama_kost.min' => 'Nama kost minimal 3 karakter.',
+            'nama_kost.max' => 'Nama kost maksimal 100 karakter.',
+
+            // Alamat Kost
             'alamat_kost.required' => 'Alamat kost wajib diisi.',
-            'sertifikat.required'  => 'Sertifikat wajib diunggah.',
-            'sertifikat.mimes'     => 'Sertifikat harus berformat PDF.',
-            'sertifikat.max'       => 'Ukuran sertifikat maksimal 10MB.',
+            'alamat_kost.min' => 'Alamat kost minimal 10 karakter.',
+            'alamat_kost.max' => 'Alamat kost maksimal 255 karakter.',
+
+            // Sertifikat
+            'sertifikat.required' => 'Sertifikat wajib diunggah.',
+            'sertifikat.mimes' => 'File harus berformat PDF.',
+            'sertifikat.max' => 'Ukuran file maksimal 10 MB.',
         ]);
 
         $user = User::create([

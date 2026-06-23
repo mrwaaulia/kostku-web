@@ -15,29 +15,145 @@
             password: '{{ addslashes($errors->first('password')) }}',
             alamat: '{{ addslashes($errors->first('alamat')) }}',
         },
+        step2Errors: {},
         validateStep1() {
             this.errors = {};
-            if (!document.querySelector('[name=nama]').value.trim())
+            const nama = document.querySelector('[name=nama]').value.trim();
+            if (!nama)
+            {
                 this.errors.nama = 'Nama wajib diisi.';
+            }
+            else if (nama.length < 3)
+            {
+                this.errors.nama = 'Nama minimal 3 karakter.';
+            }
+            else if (nama.length > 100)
+            {
+                this.errors.nama = 'Nama maksimal 100 karakter.';
+            }
             const telpon = document.querySelector('[name=telpon]').value.trim();
             if (!telpon)
+            {
                 this.errors.telpon = 'Nomor telepon wajib diisi.';
+            }
             else if (!/^\d+$/.test(telpon))
+            {
                 this.errors.telpon = 'Nomor telepon harus berupa angka.';
+            }
+            else if (telpon.length < 11 || telpon.length > 15)
+            {
+                this.errors.telpon = 'Nomor telepon harus 11-15 digit.';
+            }
             const email = document.querySelector('[name=email]').value.trim();
             if (!email)
+            {
                 this.errors.email = 'Email wajib diisi.';
+            }
             else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+            {
                 this.errors.email = 'Format email tidak valid.';
-            if (!document.querySelector('[name=password]').value)
+            }
+            else if (email.length > 100)
+            {
+                this.errors.email = 'Email maksimal 100 karakter.';
+            }
+            const password = document.querySelector('[name=password]').value;
+            if (!password)
+            {
                 this.errors.password = 'Password wajib diisi.';
-            else if (document.querySelector('[name=password]').value.length < 8)
+            }
+            else if (password.length < 8)
+            {
                 this.errors.password = 'Password minimal 8 karakter.';
-            if (!document.querySelector('[name=alamat]').value.trim())
+            }
+            else if (password.length > 32)
+            {
+                this.errors.password = 'Password maksimal 32 karakter.';
+            }
+            const alamat = document.querySelector('[name=alamat]').value.trim();
+            if (!alamat)
+            {
                 this.errors.alamat = 'Alamat wajib diisi.';
-            return Object.keys(this.errors).length === 0;
+            }
+            else if (alamat.length < 10)
+            {
+                this.errors.alamat = 'Alamat minimal 10 karakter.';
+            }
+            else if (alamat.length > 255)
+            {
+                this.errors.alamat = 'Alamat maksimal 255 karakter.';
+            }
+            return Object.keys(this.errors).length === 0; // ← tambahkan ini
+
+        },
+        validateStep2()
+        {
+            this.step2Errors = {};
+
+            const namaKost =
+                document.querySelector('[name=nama_kost]').value.trim();
+
+            const alamatKost =
+                document.querySelector('[name=alamat_kost]').value.trim();
+
+            const sertifikat = document.querySelector('input[name=sertifikat]').files[0];
+
+            if (!namaKost)
+            {
+                this.step2Errors.nama_kost =
+                    'Nama kost wajib diisi.';
+            }
+            else if (namaKost.length < 3)
+            {
+                this.step2Errors.nama_kost =
+                    'Nama kost minimal 3 karakter.';
+            }
+            else if (namaKost.length > 100)
+            {
+                this.step2Errors.nama_kost =
+                    'Nama kost maksimal 100 karakter.';
+            }
+
+            if (!alamatKost)
+            {
+                this.step2Errors.alamat_kost =
+                    'Alamat kost wajib diisi.';
+            }
+            else if (alamatKost.length < 10)
+            {
+                this.step2Errors.alamat_kost =
+                    'Alamat kost minimal 10 karakter.';
+            }
+            else if (alamatKost.length > 255)
+            {
+                this.step2Errors.alamat_kost =
+                    'Alamat kost maksimal 255 karakter.';
+            }
+
+            if (!sertifikat)
+            {
+                this.step2Errors.sertifikat =
+                    'Sertifikat wajib diunggah.';
+            }
+            else if (
+                sertifikat.type !== 'application/pdf'
+            )
+            {
+                this.step2Errors.sertifikat =
+                    'File harus PDF.';
+            }
+            else if (
+                sertifikat.size > 10485760
+            )
+            {
+                this.step2Errors.sertifikat =
+                    'Ukuran file maksimal 10 MB.';
+            }
+
+            return Object.keys(this.step2Errors).length === 0;
         }
     }"
+
     @open-modal.window="open = true; status = $event.detail"
     class="relative min-h-screen">
 
@@ -104,7 +220,7 @@
 
                             {{-- Password --}}
                             <div class="mb-4">
-                                <x-form.input label="Password" name="password" placeholder="Masukkan password" type="password" />
+                                <x-form.input label="Password" name="password" placeholder="Masukkan password" type="password" class="pr-10" />
                                 <p x-show="errors.password" x-text="errors.password" class="text-red-500 text-xs mt-1"></p>
                             </div>
 
@@ -142,16 +258,26 @@
                             <div class="mb-4">
                                 <x-form.input label="Nama Kost" name="nama_kost" placeholder="Masukkan nama kost" :value="old('nama_kost')" />
                                 @error('nama_kost')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
+                                <p
+                                    x-show="step2Errors.nama_kost"
+                                    x-text="step2Errors.nama_kost"
+                                    class="text-red-500 text-xs mt-1">
+                                </p>
                             </div>
 
                             {{-- Alamat Kost --}}
                             <div class="mb-4">
                                 <x-form.input label="Alamat Kost" name="alamat_kost" placeholder="Masukkan alamat kost" :value="old('alamat_kost')" />
                                 @error('alamat_kost')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
+                                <p
+                                    x-show="step2Errors.alamat_kost"
+                                    x-text="step2Errors.alamat_kost"
+                                    class="text-red-500 text-xs mt-1">
+                                </p>
                             </div>
 
                             {{-- FILE UPLOAD --}}
@@ -166,7 +292,7 @@
                                     this.file = null;
                                     this.fileSize = '';
                                 }
-                            }" class="w-full mb-1" name="sertifikat">
+                            }" class="w-full mb-1">
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Upload Sertifikat/Kepemilikan Tanah (Wajib)
@@ -245,19 +371,25 @@
                                     class="hidden"
                                     x-ref="file"
                                     @change="handleFile($event)">
-
                             </div>
 
+                            <p
+                                x-show="step2Errors.sertifikat"
+                                x-text="step2Errors.sertifikat"
+                                class="text-red-500 text-xs mt-1">
+                            </p>
+
                             @error('sertifikat')
-                                <p class="text-red-500 text-xs mt-1 mb-2">{{ $message }}</p>
+                            <p class="text-red-500 text-xs mt-1 mb-2">{{ $message }}</p>
                             @else
-                                <p class="text-neutral text-xs mb-4">Dokumen ini digunakan untuk verifikasi kepemilikan kost</p>
+                            <p class="text-neutral text-xs mb-4">Dokumen ini digunakan untuk verifikasi kepemilikan kost</p>
                             @enderror
+
 
                             <x-form.button
                                 type="button"
                                 class="w-full my-4"
-                                @click="$el.closest('form').submit()">
+                                @click="if(validateStep2()){$el.closest('form').submit()}">
                                 Daftar
                             </x-form.button>
                             <div class="flex justify-center">
@@ -344,10 +476,12 @@
     @if(session('registered'))
     <script>
         window.addEventListener('load', () => {
-            window.dispatchEvent(new CustomEvent('open-modal', { detail: 'pending' }));
+            window.dispatchEvent(new CustomEvent('open-modal', {
+                detail: 'pending'
+            }));
         });
     </script>
     @endif
 
 
-@endsection
+    @endsection
