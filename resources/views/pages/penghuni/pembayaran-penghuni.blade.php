@@ -40,11 +40,11 @@
         {{ session('payment_status') === 'unfinish' ? 'bg-yellow-50 border border-yellow-200 text-yellow-800' : '' }}
         {{ session('payment_status') === 'error' ? 'bg-red-50 border border-red-200 text-red-800' : '' }}">
         @if(session('payment_status') === 'finish')
-            Pembayaran berhasil. Terima kasih.
+        Pembayaran berhasil. Terima kasih.
         @elseif(session('payment_status') === 'unfinish')
-            Pembayaran belum selesai. Silakan lanjutkan kembali.
+        Pembayaran belum selesai. Silakan lanjutkan kembali.
         @elseif(session('payment_status') === 'error')
-            Terjadi kesalahan pada proses pembayaran.
+        Terjadi kesalahan pada proses pembayaran.
         @endif
     </div>
     @endif
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            
+
 
             {{-- TOMBOL AKSI --}}
 
@@ -159,11 +159,11 @@
                     </x-table.td>
                     <x-table.td>
                         @if(str_contains($item->id_pembayaran, '-c1-'))
-                            Cicilan 1
+                        Cicilan 1
                         @elseif(str_contains($item->id_pembayaran, '-c2-'))
-                            Cicilan 2
+                        Cicilan 2
                         @else
-                            Lunas
+                        Lunas
                         @endif
                     </x-table.td>
                     <x-table.td>
@@ -340,7 +340,13 @@
         data-client-key="{{ config('midtrans.clientKey') }}"></script>
 
     <script>
-        function pembayaranPage({ pending, cicilan1, cicilan2, sudahLunas, adaTagihan }) {
+        function pembayaranPage({
+            pending,
+            cicilan1,
+            cicilan2,
+            sudahLunas,
+            adaTagihan
+        }) {
             return {
                 modalOpen: false,
                 modalType: null,
@@ -367,19 +373,26 @@
                 },
 
                 get periodeTagihan() {
-                    const tgl = this.pending?.tanggal_pembayaran
-                        ?? this.cicilan1?.tanggal_pembayaran
-                        ?? this.cicilan2?.tanggal_pembayaran;
+                    const tgl = this.pending?.tanggal_pembayaran ??
+                        this.cicilan1?.tanggal_pembayaran ??
+                        this.cicilan2?.tanggal_pembayaran;
                     if (!tgl) return '-';
-                    return new Date(tgl).toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+                    return new Date(tgl).toLocaleString('id-ID', {
+                        month: 'long',
+                        year: 'numeric'
+                    });
                 },
 
                 get jatuhTempo() {
-                    const tgl = this.pending?.tanggal_pembayaran
-                        ?? this.cicilan1?.tanggal_pembayaran
-                        ?? this.cicilan2?.tanggal_pembayaran;
+                    const tgl = this.pending?.tanggal_pembayaran ??
+                        this.cicilan1?.tanggal_pembayaran ??
+                        this.cicilan2?.tanggal_pembayaran;
                     if (!tgl) return '-';
-                    return new Date(tgl).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                    return new Date(tgl).toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
                 },
 
                 formatRupiah(nominal) {
@@ -388,7 +401,9 @@
 
                 async verifyAndReload(paymentId) {
                     try {
-                        await axios.post('/payment/verify', { pembayaran_id: paymentId });
+                        await axios.post('/payment/verify', {
+                            pembayaran_id: paymentId
+                        });
                     } catch (e) {
                         // tetap reload
                     } finally {
@@ -426,7 +441,9 @@
                     this.isLoading = true;
                     this.alertMessage = null;
 
-                    axios.post('/payment/create', { pembayaran_id: pembayaran.id })
+                    axios.post('/payment/create', {
+                            pembayaran_id: pembayaran.id
+                        })
                         .then(response => {
                             const snap_token = response.data.snap_token;
                             const payment_id = response.data.payment_id;
@@ -440,7 +457,7 @@
                 },
 
                 // Bayar cicilan baru (pecah dari induk, is_cicilan: true)
-                payNowCicilan(pembayaran) {
+                async payNowCicilan(pembayaran) {
                     if (!pembayaran) {
                         this.alertMessage = 'Tidak ada tagihan aktif.';
                         return;
@@ -448,20 +465,53 @@
                     this.isLoading = true;
                     this.alertMessage = null;
 
-                    axios.post('/payment/create', {
-                        pembayaran_id: pembayaran.id,
-                        is_cicilan: true
-                    })
-                    .then(response => {
-                        const snap_token = response.data.snap_token;
-                        const payment_id = response.data.payment_id;
-                        if (!snap_token) throw new Error('Token tidak ditemukan.');
-                        this.startSnap(snap_token, payment_id);
-                    })
-                    .catch(error => {
+                    try {
+                        // Step 1: pecah jadi 2 cicilan, dapat cicilan1_id
+                        const splitRes = await axios.post('/payment/create', {
+                            pembayaran_id: pembayaran.id,
+                            is_cicilan: true
+                        });
+
+                        const cicilan1Id = splitRes.data.cicilan1_id;
+                        if (!cicilan1Id) throw new Error('cicilan1_id tidak ditemukan.');
+
+                        // Step 2: generate snap token untuk cicilan 1
+                        const payRes = await axios.post('/payment/create', {
+                            pembayaran_id: cicilan1Id
+                        });
+
+                        const snapToken = payRes.data.snap_token;
+                        const paymentId = payRes.data.payment_id;
+                        if (!snapToken) throw new Error('Token tidak ditemukan.');
+
+                        this.startSnap(snapToken, paymentId);
+
+                    } catch (error) {
                         this.alertMessage = error.response?.data?.message || error.message;
                         this.isLoading = false;
-                    });
+                    }
+                },
+                get sisaTagihan() {
+                    if (!this.adaTagihan || this.sudahLunas) return 0;
+
+                    // Semua cicilan lunas
+                    if (
+                        this.cicilan1 && this.cicilan1.status === 'lunas' &&
+                        this.cicilan2 && this.cicilan2.status === 'lunas'
+                    ) return 0;
+
+                    // Cicilan 1 sudah lunas, sisa = cicilan 2
+                    if (this.cicilan1 && this.cicilan1.status === 'lunas' && this.cicilan2) {
+                        return this.cicilan2.nominal;
+                    }
+
+                    // Cicilan 1 belum lunas
+                    if (this.cicilan1 && this.cicilan1.status === 'belum_bayar') {
+                        return this.cicilan1.nominal;
+                    }
+
+                    // Mode lunas biasa
+                    return this.pending?.nominal ?? 0;
                 },
             }
         }
