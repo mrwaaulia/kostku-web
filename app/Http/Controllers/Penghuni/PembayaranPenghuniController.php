@@ -192,25 +192,12 @@ class PembayaranPenghuniController extends Controller
 
     private function generateSingleSnapToken($pembayaran, $user)
     {
-<<<<<<< Updated upstream
-        // Buat suffix pendek tapi cukup unik
-        $suffix = now()->format('His') . rand(10, 99); // 8 char
-
-        // Potong base agar total tidak melebihi 50 char
-        $maxBaseLen      = 50 - 1 - strlen($suffix); // 50 - 1 - 8 = 41
-        $base            = substr($pembayaran->id_pembayaran, 0, $maxBaseLen);
-        $midtransOrderId = $base . '-' . $suffix;
-
-        // Pastikan tidak ada spasi (jaga-jaga)
-        $midtransOrderId = preg_replace('/\s+/', '', $midtransOrderId);
-=======
         // Buat suffix unik pendek
         $suffix = now()->format('His') . rand(10, 99); // max 8 karakter
 
         // Potong base agar total tidak melebihi 50 karakter
         $maxBase = 50 - strlen($suffix) - 1; // -1 untuk tanda '-'
         $base    = substr($pembayaran->id_pembayaran, 0, $maxBase);
->>>>>>> Stashed changes
 
         $midtransOrderId = $base . '-' . $suffix;
 
